@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Phonebook</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+
+<form th:action="@{/phones/registration}" th:object="${user}" method="post">
+    <h2>User`s Registration Form</h2>
+
+    <label th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="error"/><br/>
+    <input type="text" th:field="*{login}" placeholder="Enter login"/><br/>
+    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"/><br/>
+    <input type="password" th:field="*{password}" placeholder="Enter password"/><br/>
+    <label th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}" class="error"/><br/>
+    <input type="text" th:field="*{fio}" placeholder="Enter fio"/><br/><br/>
+    <button type="submit">Register User</button>
+    <br/>
+
+</form>
+</body>
+</html>

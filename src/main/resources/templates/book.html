@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Phonebook</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div>
+    You are logged as: <b th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </b>
+    <form th:action="@{/app-logout}" method="POST">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+<br/>
+
+<h3><b th:inline="text"> [[${#httpServletRequest.remoteUser}]]`s phone book</b></h3><br/>
+<form th:action="@{/phones/find}" th:object="${filterCriteria}" method="post">
+    <input type="text" th:field="*{searchParam}" placeholder="search"/>
+    <button type="Submit">Filter</button>
+</form>
+<br/>
+<span th:utext="${resultMessage}" class="message"></span><br/>
+<table>
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Mobile Phone</th>
+        <th>Permanent Phone</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th width="100"></th>
+        <th width="100"></th>
+    </tr>
+    </thead>
+    <tr th:each="phone : ${userBook}">
+        <td th:text="${phone.getFirstname()}"/>
+        <td th:text="${phone.getMiddlename()}"/>
+        <td th:text="${phone.getLastname()}"/>
+        <td th:text="${phone.getPhonemobile()}"/>
+        <td th:text="${phone.getPhonepermanent()}"/>
+        <td th:text="${phone.getAddress()}"/>
+        <td th:text="${phone.getEmail()}"/>
+        <td>
+            <form th:action="@{'/phones/edit-'+${phone.id}}" method="get">
+                <button type="Submit">Edit</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{'/phones/delete-'+${phone.id}}" method="get">
+                <button type="Submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<br/>
+<form th:action="@{/phones/newfield}" method="get">
+    <button type="Submit">Add new contact</button>
+</form><br/>
+<form th:action="@{/phones/dump}" method="get">
+    <button type="Submit">Dump offline to disc</button>
+</form>
+</body>
+</html>   

@@ -1,0 +1,21 @@
+.error{
+    color: red;
+    font-size: 17px;
+    font-style: italic;
+}
+.user{
+     color: blueviolet;
+     font-size: 17px;
+ }
+.message{
+    color: blueviolet;
+    font-size: 17px;
+}
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+

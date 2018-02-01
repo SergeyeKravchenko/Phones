@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Phonebook</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+    </head>
+    <body>
+        <h2> Please, log in or register </h2>
+        <p th:if="${param.error}" class="error">
+            Please, verify your credentials
+        </p>
+        <form th:action="@{/login}" method="POST">
+            <input type="text" name="app_username" placeholder="Enter login"/> <br/><br/>
+            <input type="password" name="app_password" placeholder="Enter password"/> <br/><br/>
+            <input type="submit" value="Login"/>
+        </form>
+    <br/>
+        <form th:action="@{/phones/registration}" method="get">
+            <button type="Submit">Go To Registration Page</button>
+        </form>
+    </body>
+</html>

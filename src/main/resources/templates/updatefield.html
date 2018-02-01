@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Phonebook</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+
+You are logged as: <b th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </b><br/><br/>
+<form th:action="@{/phones/updatefield}" th:object="${phone}" method="post">
+    <h2>Update field</h2>
+
+    <label th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error"/><br/>
+    <input type="text" th:field="*{id}" placeholder="Id"/><br/>
+    <label th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" class="error"/><br/>
+    <input type="text" th:field="*{firstname}" placeholder="First Name"/><br/>
+    <label th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" class="error"/><br/>
+    <input type="text" th:field="*{lastname}" placeholder="Last Name"/><br/>
+    <label th:if="${#fields.hasErrors('middlename')}" th:errors="*{middlename}" class="error"/><br/>
+    <input type="text" th:field="*{middlename}" placeholder="Middle Name"/><br/><br/>
+    <label th:if="${#fields.hasErrors('phonemobile')}" th:errors="*{phonemobile}" class="error"/><br/>
+    <input type="text" th:field="*{phonemobile}" placeholder="Mobile +380xx xxxxxxx"/><br/><br/>
+    <label th:if="${#fields.hasErrors('phonepermanent')}" th:errors="*{phonepermanent}" class="error"/><br/>
+    <input type="text" th:field="*{phonepermanent}" placeholder="Phone"/><br/><br/>
+    <label th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"/><br/>
+    <input type="text" th:field="*{address}" placeholder="Address"/><br/><br/>
+    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"/><br/>
+    <input type="text" th:field="*{email}" placeholder="Email"/><br/><br/>
+    <button type="submit">Update</button>
+
+    <br/>
+
+</form>
+</body>
+</html>
