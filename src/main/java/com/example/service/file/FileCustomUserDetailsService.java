@@ -22,7 +22,9 @@ public class FileCustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userService.findUserByLogin(s);
+        if (user != null) {
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
         return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Arrays.asList(authority));
+        } else throw new UsernameNotFoundException("Username not found");
     }
 }
