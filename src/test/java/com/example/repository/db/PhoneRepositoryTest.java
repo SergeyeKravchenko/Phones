@@ -2,6 +2,7 @@ package com.example.repository.db;
 
 import com.example.model.Phone;
 import com.example.model.User;
+import com.example.repository.PhoneRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

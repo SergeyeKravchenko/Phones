@@ -1,8 +1,8 @@
 package com.example.service.db;
 
 import com.example.model.Phone;
-import com.example.repository.db.PhoneRepository;
-import com.example.dump.Phones;
+import com.example.repository.PhoneRepository;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +10,21 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service(value = "phoneService")
 @Profile("Mysql")
+@NoArgsConstructor
 public class PhoneServiceImpl implements PhoneService {
 
+    private PhoneRepository repository;
+
     @Autowired
-    PhoneRepository repository;
+    public PhoneServiceImpl(PhoneRepository repository) {
+        this.repository = repository;
+    }
+
 
     private static final Logger log = LoggerFactory.getLogger(PhoneServiceImpl.class);
 
@@ -68,15 +73,5 @@ public class PhoneServiceImpl implements PhoneService {
         return repository.findByUser_Login(login).stream().filter((e) -> e.getFirstname().toLowerCase().contains(criteria.toLowerCase())
                 || (e.getLastname().toLowerCase().contains(criteria.toLowerCase())
                 || (e.getPhonemobile()).contains(criteria))).collect(Collectors.toList());
-    }
-
-    @Override
-    public Phones getPhones() throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
-    }
-
-    @Override
-    public void setPhones(Phones phones) throws OperationNotSupportedException {
-        throw new OperationNotSupportedException();
     }
 }

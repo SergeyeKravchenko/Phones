@@ -7,6 +7,8 @@ spring.datasource.tomcat.max-active= 50
 spring.datasource.tomcat.max-idle= 20
 spring.datasource.tomcat.min-idle= 15
 
+spring.main.banner-mode=off
+
 spring.profiles.active=Mysql
 #spring.profiles.active=file
 file.pathtodump=d:/!/

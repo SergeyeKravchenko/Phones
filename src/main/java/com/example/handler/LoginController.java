@@ -1,13 +1,12 @@
 package com.example.handler;
 
+import com.example.dump.Phones;
+import com.example.dump.Users;
 import com.example.model.FilterCriteria;
 import com.example.model.Phone;
 import com.example.model.User;
-import com.example.repository.db.PhoneRepository;
 import com.example.service.db.PhoneService;
 import com.example.service.db.UserService;
-import com.example.dump.Phones;
-import com.example.dump.Users;
 import com.example.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.OperationNotSupportedException;
 import javax.validation.Valid;
 
 @Controller
@@ -31,9 +29,6 @@ public class LoginController {
 
     @Autowired
     PhoneService phoneService;
-
-    @Autowired
-    private PhoneRepository repository;
 
     @Autowired
     private Environment environment;
@@ -123,6 +118,7 @@ public class LoginController {
         log.info("In /edit-{id} method Get");
         ModelAndView mav = new ModelAndView();
         Phone phone = phoneService.getPhoneById(id);
+        System.out.println("In /edit-{id} method Get Phone " + phone);
         mav.addObject("phone", phone);
         mav.setViewName("updatefield");
         return mav;
@@ -130,10 +126,13 @@ public class LoginController {
 
     @PostMapping(value = {"/updatefield"})
     public String updateField(@Valid Phone phone, BindingResult result) {
-        log.info("In /updatefield method Get");
+        log.info("In /updatefield method Get Phone " + phone);
         if (result.hasErrors()) {
             return "updatefield";
         }
+        String login = Utils.getLoginFromContext();
+        User user = userService.findUserByLogin(login);
+        phone.setUser(user);
         phoneService.updatePhone(phone);
         return "redirect:/phones/book";
     }
@@ -145,20 +144,17 @@ public class LoginController {
         FilterCriteria filterCriteria = new FilterCriteria();
         ModelAndView mav = new ModelAndView();
 //        mav.addObject("userBook", repository.findByUser_Login(login));
-        mav.addObject("userBook", phoneService.findRowBySearchCriteria(login,""));
+        mav.addObject("userBook", phoneService.findRowBySearchCriteria(login, ""));
         mav.addObject("filterCriteria", filterCriteria);
         mav.setViewName("book");
         return mav;
     }
+
     @GetMapping("/dump")
     public String dumpData(Model model) {
-        try {
-            String path = environment.getRequiredProperty("file.pathtodump");
-            Utils.dumpData(Users.class,userService.getUsers(),path);
-            Utils.dumpData(Phones.class,phoneService.getPhones(),path);
-        } catch (OperationNotSupportedException e) {
-            log.info("For MySQL is not supported");
-        }
+        String path = environment.getRequiredProperty("file.pathtodump");
+        Utils.dumpData(Users.class, new Users(), path);
+        Utils.dumpData(Phones.class, new Phones(), path);
         return "redirect:/phones/book";
     }
 }

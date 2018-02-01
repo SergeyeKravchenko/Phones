@@ -1,7 +1,8 @@
 package com.example.service.db;
 
 import com.example.model.User;
-import com.example.repository.db.UserRepository;
+import com.example.repository.UserRepository;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,16 @@ import java.util.Arrays;
 
 @Service
 @Profile("Mysql")
+@NoArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
     private UserRepository repository;
+
+    @Autowired
+    public CustomUserDetailsService(UserRepository repository) {
+        this.repository = repository;
+    }
+
 
     private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
@@ -31,7 +38,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = repository.findByLogin(s);
         log.info("Found user with login : " + user.getLogin());
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), Arrays.asList(authority));
-        return userDetails;
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), Arrays.asList(authority));
     }
 }

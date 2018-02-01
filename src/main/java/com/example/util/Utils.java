@@ -1,17 +1,13 @@
 package com.example.util;
 
-import com.example.dump.Users;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class Utils {
 
@@ -23,26 +19,24 @@ public class Utils {
     }
 
     public static <T> void dumpData(Class clazz, T source, String path) {
+        File file = new File(path + clazz.getSimpleName() + ".json");
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            File file = new File(path + clazz.getSimpleName() + ".xml");
-            JAXBContext jc = JAXBContext.newInstance(clazz);
-            Marshaller marshaller = jc.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(source, file);
-        } catch (JAXBException e) {
-            log.info("In Utils while marshalling");
+            mapper.writeValue(file, source);
+        } catch (IOException e) {
+            log.info("In Utils while serializing");
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T loadData(Class clazz, String path) {
         Object data = null;
+        File file = new File(path + clazz.getSimpleName() + ".json");
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            File file = new File(path + clazz.getSimpleName() + ".xml");
-            JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            data = jaxbUnmarshaller.unmarshal(file);
-        } catch (JAXBException e) {
-            log.info("In Utils while unmarshalling");
+            data = mapper.readValue(file, clazz);
+        } catch (IOException e) {
+            log.info("In Utils while deserializing");
         }
         return (T) data;
     }
