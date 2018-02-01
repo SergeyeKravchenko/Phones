@@ -30,6 +30,5 @@ public class FileUserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         usersFileDb.put(user.getLogin(), user);
-        System.out.println("Users :" + usersFileDb);
     }
 }
