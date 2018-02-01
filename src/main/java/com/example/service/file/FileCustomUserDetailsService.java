@@ -23,7 +23,6 @@ public class FileCustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userService.findUserByLogin(s);
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Arrays.asList(authority));
-        return userDetails;
+        return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Arrays.asList(authority));
     }
 }

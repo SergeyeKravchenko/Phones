@@ -118,7 +118,6 @@ public class LoginController {
         log.info("In /edit-{id} method Get");
         ModelAndView mav = new ModelAndView();
         Phone phone = phoneService.getPhoneById(id);
-        System.out.println("In /edit-{id} method Get Phone " + phone);
         mav.addObject("phone", phone);
         mav.setViewName("updatefield");
         return mav;
@@ -143,7 +142,6 @@ public class LoginController {
         String login = Utils.getLoginFromContext();
         FilterCriteria filterCriteria = new FilterCriteria();
         ModelAndView mav = new ModelAndView();
-//        mav.addObject("userBook", repository.findByUser_Login(login));
         mav.addObject("userBook", phoneService.findRowBySearchCriteria(login, ""));
         mav.addObject("filterCriteria", filterCriteria);
         mav.setViewName("book");
