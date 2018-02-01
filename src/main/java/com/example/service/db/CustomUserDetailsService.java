@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 @Profile("Mysql")
@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user != null) {
             log.info("Found user with login : " + user.getLogin());
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
-            return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), Arrays.asList(authority));
+            return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), Collections.singletonList(authority));
         } else throw new UsernameNotFoundException("Username not found");
 
     }
