@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 
 @Service
-@Profile("Mysql")
+@Profile({"Mysql","Test"})
 @NoArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 

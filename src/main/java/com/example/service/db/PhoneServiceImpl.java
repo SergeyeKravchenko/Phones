@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service(value = "phoneService")
-@Profile("Mysql")
+@Profile({"Mysql","Test"})
 @NoArgsConstructor
 public class PhoneServiceImpl implements PhoneService {
 

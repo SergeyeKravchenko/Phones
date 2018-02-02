@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:action="@{/phones/registration}" th:object="${user}" method="post">
+<form th:action="@{/registration}" th:object="${user}" method="post">
     <h2>User`s Registration Form</h2>
 
     <label th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="error"/><br/>

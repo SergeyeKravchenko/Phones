@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/phones")
+@RequestMapping("/")
 public class LoginController {
 
     @Autowired
@@ -91,7 +91,7 @@ public class LoginController {
             phone.setUser(user);
             phoneService.savePhone(phone);
             model.addAttribute("successMessage", "New contact is added successfully");
-            return "redirect:/phones/book";
+            return "redirect:/book";
         }
     }
 
@@ -99,7 +99,7 @@ public class LoginController {
     public String deleteField(@PathVariable Long id) {
         log.info("In /delete-{id} method Get");
         phoneService.deletePhone(id);
-        return "redirect:/phones/book";
+        return "redirect:/book";
     }
 
     @PostMapping(value = {"/find"})
@@ -133,7 +133,7 @@ public class LoginController {
         User user = userService.findUserByLogin(login);
         phone.setUser(user);
         phoneService.updatePhone(phone);
-        return "redirect:/phones/book";
+        return "redirect:/book";
     }
 
     @GetMapping("/book")
@@ -153,6 +153,6 @@ public class LoginController {
         String path = environment.getRequiredProperty("file.pathtodump");
         Utils.dumpData(Users.class, new Users(), path);
         Utils.dumpData(Phones.class, new Phones(), path);
-        return "redirect:/phones/book";
+        return "redirect:/book";
     }
 }

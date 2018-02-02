@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class FilePhoneServiceImpl implements PhoneService {
 
     private static Map<Long, Phone> phonesFileDb = new HashMap<>();
-    private static Long id = 1L;
+    private static Long id;
 
     public static Map<Long, Phone> getPhonesFileDb() {
         return phonesFileDb;
@@ -28,8 +28,9 @@ public class FilePhoneServiceImpl implements PhoneService {
 
     @Override
     public void savePhone(Phone phone) {
-        phone.setId(id);
-        phonesFileDb.put(id++, phone);
+        id = phonesFileDb.keySet().stream().max(Long::compareTo).orElse(0L);
+        phone.setId(++id);
+        phonesFileDb.put(id, phone);
     }
 
     @Override

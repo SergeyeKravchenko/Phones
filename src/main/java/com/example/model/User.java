@@ -2,6 +2,7 @@ package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,8 +13,15 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 @ToString(exclude = "phones")
 public class User {
+
+    public User(String login, String password, String fio) {
+        this.login = login;
+        this.password = password;
+        this.fio = fio;
+    }
 
     @Id
     @NotEmpty(message = "can not be empty")

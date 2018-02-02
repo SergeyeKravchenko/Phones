@@ -9,6 +9,8 @@ spring.datasource.tomcat.min-idle= 15
 
 spring.main.banner-mode=off
 
+server.contextPath=/phones
+
 spring.profiles.active=Mysql
 #spring.profiles.active=file
 file.pathtodump=d:/!/

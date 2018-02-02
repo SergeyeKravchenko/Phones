@@ -14,7 +14,7 @@
 <br/>
 
 <h3><b th:inline="text"> [[${#httpServletRequest.remoteUser}]]`s phone book</b></h3><br/>
-<form th:action="@{/phones/find}" th:object="${filterCriteria}" method="post">
+<form th:action="@{/find}" th:object="${filterCriteria}" method="post">
     <input type="text" th:field="*{searchParam}" placeholder="search"/>
     <button type="Submit">Filter</button>
 </form>
@@ -43,22 +43,22 @@
         <td th:text="${phone.getAddress()}"/>
         <td th:text="${phone.getEmail()}"/>
         <td>
-            <form th:action="@{'/phones/edit-'+${phone.id}}" method="get">
+            <form th:action="@{'/edit-'+${phone.id}}" method="get">
                 <button type="Submit">Edit</button>
             </form>
         </td>
         <td>
-            <form th:action="@{'/phones/delete-'+${phone.id}}" method="get">
+            <form th:action="@{'/delete-'+${phone.id}}" method="get">
                 <button type="Submit">Delete</button>
             </form>
         </td>
     </tr>
 </table>
 <br/>
-<form th:action="@{/phones/newfield}" method="get">
+<form th:action="@{/newfield}" method="get">
     <button type="Submit">Add new contact</button>
 </form><br/>
-<form th:action="@{/phones/dump}" method="get">
+<form th:action="@{/dump}" method="get">
     <button type="Submit">Save offline to disc</button>
 </form>
 </body>

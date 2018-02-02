@@ -7,7 +7,7 @@
 <body>
 
 You are logged as: <b th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </b><br/><br/>
-<form th:action="@{/phones/updatefield}" th:object="${phone}" method="post">
+<form th:action="@{/updatefield}" th:object="${phone}" method="post">
     <h2>Update field</h2>
 
     <label th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error"/><br/>

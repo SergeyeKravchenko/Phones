@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "userService")
-@Profile("Mysql")
+@Profile({"Mysql","Test"})
 @NoArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -27,8 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User findUserByLogin(String login) {
-        User user = repository.findByLogin(login);
-        return user;
+        return repository.findByLogin(login);
     }
 
     @Override
