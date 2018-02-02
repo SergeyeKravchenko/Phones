@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public User findUserByLogin(String login) {
         User user = repository.findByLogin(login);
-        log.info("Found user with login : " + user.getLogin());
         return user;
     }
 
