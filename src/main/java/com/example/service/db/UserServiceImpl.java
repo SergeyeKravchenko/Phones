@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,13 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository repository;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository,PasswordEncoder passwordEncoder) {
+
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -33,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
         log.info("Saved user with login : " + user.getLogin());
     }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/")
@@ -137,9 +138,11 @@ public class LoginController {
     }
 
     @GetMapping("/book")
-    public ModelAndView getAllUserData() {
+    public ModelAndView getAllUserData(Principal user) {
         log.info("In /book method Get");
-        String login = Utils.getLoginFromContext();
+        System.out.println("User " + user);
+        String login = user.getName();
+//        String login = Utils.getLoginFromContext();
         FilterCriteria filterCriteria = new FilterCriteria();
         ModelAndView mav = new ModelAndView();
         mav.addObject("userBook", phoneService.findRowBySearchCriteria(login, ""));
