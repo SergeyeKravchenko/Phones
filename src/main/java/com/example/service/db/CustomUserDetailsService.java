@@ -1,12 +1,10 @@
 package com.example.service.db;
 
 import com.example.model.User;
-import com.example.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,24 +16,22 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 
 @Service
-@Profile({"Mysql","Test"})
 @NoArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository repository;
+    private UserService userService;
 
     @Autowired
-    public CustomUserDetailsService(UserRepository repository) {
-        this.repository = repository;
+    public CustomUserDetailsService(UserService userService) {
+        this.userService = userService;
     }
-
 
     private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = repository.findByLogin(s);
+        User user = userService.findUserByLogin(s);
         if (user != null) {
             log.info("Found user with login : " + user.getLogin());
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");

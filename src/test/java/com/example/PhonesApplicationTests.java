@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,12 +19,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import javax.servlet.Filter;
-
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,8 +36,8 @@ public class PhonesApplicationTests {
     @Autowired
     private WebApplicationContext context;
 
-    @Autowired
-    private Filter springSecurityFilterChain;
+//    @Autowired
+//    private Filter springSecurityFilterChain;
 
     private MockMvc mockMvc;
 
@@ -45,11 +45,13 @@ public class PhonesApplicationTests {
     public void setup() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
-                .addFilters(springSecurityFilterChain)
+//                .addFilters(springSecurityFilterChain)
+                .apply(springSecurity())
                 .build();
     }
 
     @Test
+//    @WithUserDetails(value="admin", userDetailsServiceBeanName="customUserDetailsService")
     public void loginWithValidUserThenAuthenticated() throws Exception {
         FormLoginRequestBuilder login = formLogin()
                 .user("admin")
@@ -57,6 +59,7 @@ public class PhonesApplicationTests {
         mockMvc.perform(login)
                 .andExpect(authenticated().withUsername("admin"));
     }
+
 
     @Test
     public void loginWithInvalidUserThenUnauthenticated() throws Exception {

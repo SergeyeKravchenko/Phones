@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Profile("file")
-@Service
+@Service(value = "userService")
 public class FileUserServiceImpl implements UserService {
 
     private PasswordEncoder passwordEncoder;

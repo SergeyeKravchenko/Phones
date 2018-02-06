@@ -2,7 +2,6 @@ package com.example.service.db;
 
 import com.example.model.User;
 import com.example.repository.UserRepository;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service(value = "userService")
 @Profile({"Mysql","Test"})
-@NoArgsConstructor
+@Service(value = "userService")
 public class UserServiceImpl implements UserService {
 
     private UserRepository repository;
@@ -22,7 +20,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository repository,PasswordEncoder passwordEncoder) {
-
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
