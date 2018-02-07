@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     @Transactional(readOnly = true)
@@ -37,6 +37,6 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
-        log.info("Saved user with login : " + user.getLogin());
+        LOGGER.info("Saved user with login : " + user.getLogin());
     }
 }
