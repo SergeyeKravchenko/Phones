@@ -32,7 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Profile({"Mysql", "Test"})
     @Order(1)
     @NoArgsConstructor
-    @EnableWebSecurity
     private class Database extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -61,7 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Configuration
     @Order(2)
-    @EnableWebSecurity
     @NoArgsConstructor
     @Profile("file")
     private class File extends WebSecurityConfigurerAdapter {
