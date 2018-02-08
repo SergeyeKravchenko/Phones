@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +47,8 @@ public class LoginController {
     public String login() {
         log.info("In /login method Get");
         if (!isAnonymous()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println("Is remember-me :"+trustResolver.isRememberMe(authentication));
             return "redirect:/book";
         } else {
             return "login";
@@ -79,6 +82,7 @@ public class LoginController {
         return modelAndView;
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
     @GetMapping("/newfield")
     public String addField(@ModelAttribute Phone phone) {
         log.info("In /newfield method Get");
@@ -100,6 +104,7 @@ public class LoginController {
         }
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
     @GetMapping(value = {"/delete-{id}"})
     public String deleteField(@PathVariable Long id) {
         log.info("In /delete-{id} method Get");
@@ -118,6 +123,7 @@ public class LoginController {
         return mav;
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
     @GetMapping(value = {"/edit-{id}"})
     public ModelAndView editField(@PathVariable Long id) {
         log.info("In /edit-{id} method Get");
