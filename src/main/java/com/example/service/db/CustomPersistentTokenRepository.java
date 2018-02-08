@@ -31,7 +31,6 @@ public class CustomPersistentTokenRepository implements PersistentTokenRepositor
     @Transactional
     public void createNewToken(PersistentRememberMeToken token) {
         LOGGER.info("Create token for :" + token.getUsername());
-//        loginRepository.findPersistentLoginByUsername(token.getUsername());
         PersistentLogin login = new PersistentLogin();
         login.setUsername(token.getUsername());
         login.setSeries(token.getSeries());

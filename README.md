@@ -42,3 +42,13 @@ CREATE INDEX FKlex3qqcgxh7oglxpocyu5ap7j
   for using external source.Place this file with right name application.properties in some 
   folder and edit run configuration of VM options : -Dlardi.conf=/path/to/application.properties
   
+  Added Remember-me service (requires new table) :
+  CREATE TABLE persistent_logins
+  (
+    username  VARCHAR(64)                         NOT NULL,
+    series    VARCHAR(64)                         NOT NULL
+      PRIMARY KEY,
+    token     VARCHAR(64)                         NOT NULL,
+    last_used TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP
+  )
+    ENGINE = InnoDB;

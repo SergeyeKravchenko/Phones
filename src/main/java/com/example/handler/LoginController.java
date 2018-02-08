@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,22 +37,25 @@ public class LoginController {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    AuthenticationTrustResolver trustResolver;
+
     private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @GetMapping("/login")
-    public ModelAndView login() {
+    public String login() {
         log.info("In /login method Get");
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("login");
-        return mav;
+        if (!isAnonymous()) {
+            return "redirect:/book";
+        } else {
+            return "login";
+        }
     }
 
     @GetMapping("/registration")
-    public ModelAndView register(@ModelAttribute User user) {
+    public String register(@ModelAttribute User user) {
         log.info("In /registration method Get");
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("registration");
-        return mav;
+        return "registration";
     }
 
     @PostMapping(value = "/registration")
@@ -74,11 +80,9 @@ public class LoginController {
     }
 
     @GetMapping("/newfield")
-    public ModelAndView addField(@ModelAttribute Phone phone) {
+    public String addField(@ModelAttribute Phone phone) {
         log.info("In /newfield method Get");
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("newfield");
-        return mav;
+        return "newfield";
     }
 
     @PostMapping(value = "/newfield")
@@ -157,5 +161,10 @@ public class LoginController {
         Utils.dumpData(Users.class, new Users(), path);
         Utils.dumpData(Phones.class, new Phones(), path);
         return "redirect:/book";
+    }
+
+    public boolean isAnonymous() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return trustResolver.isAnonymous(authentication);
     }
 }
