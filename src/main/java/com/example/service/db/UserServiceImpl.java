@@ -37,6 +37,6 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
-        LOGGER.info("Saved user with login : " + user.getLogin());
+        LOGGER.debug("Saved user with login : " + user.getLogin());
     }
 }

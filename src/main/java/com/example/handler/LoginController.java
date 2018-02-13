@@ -150,9 +150,7 @@ public class LoginController {
     @GetMapping("/book")
     public ModelAndView getAllUserData(Principal user) {
         log.info("In /book method Get");
-        System.out.println("User " + user);
         String login = user.getName();
-//        String login = Utils.getLoginFromContext();
         FilterCriteria filterCriteria = new FilterCriteria();
         ModelAndView mav = new ModelAndView();
         mav.addObject("userBook", phoneService.findRowBySearchCriteria(login, ""));

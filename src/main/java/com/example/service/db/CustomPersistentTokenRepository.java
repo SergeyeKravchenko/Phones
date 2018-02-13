@@ -37,6 +37,7 @@ public class CustomPersistentTokenRepository implements PersistentTokenRepositor
         login.setToken(token.getTokenValue());
         login.setLast_used(token.getDate());
         loginRepository.save(login);
+        LOGGER.debug("PersistentLogin :" + login + " for " + login.getUsername() + " was saved");
     }
 
     @Override
@@ -47,6 +48,7 @@ public class CustomPersistentTokenRepository implements PersistentTokenRepositor
         series.setToken(tokenValue);
         series.setLast_used(lastUsed);
         loginRepository.save(series);
+        LOGGER.debug("PersistentLogin :" + series + " for " + series.getUsername() + " was updated");
     }
 
     @Override
@@ -67,6 +69,7 @@ public class CustomPersistentTokenRepository implements PersistentTokenRepositor
         if (listLoginByUsername != null) {
             LOGGER.info("token was found");
             loginRepository.delete(listLoginByUsername);
+            LOGGER.debug("Token for " + listLoginByUsername.get(0).getUsername() + " was deleted");
         }
     }
 }

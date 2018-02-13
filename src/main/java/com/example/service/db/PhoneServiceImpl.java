@@ -26,27 +26,27 @@ public class PhoneServiceImpl implements PhoneService {
     }
 
 
-    private static final Logger log = LoggerFactory.getLogger(PhoneServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhoneServiceImpl.class);
 
     @Override
     @Transactional
     public void savePhone(Phone phone) {
         repository.save(phone);
-        log.info("Phone of " + phone.getLastname() + " was saved");
+        LOGGER.info("Phone of " + phone.getLastname() + " was saved");
     }
 
     @Override
     @Transactional
     public void deletePhone(Long id) {
         repository.delete(id);
-        log.info("Phone with " + id + " was deleted");
+        LOGGER.debug("Phone with " + id + " was deleted");
     }
 
     @Override
     @Transactional(readOnly = true)
     public Phone getPhoneById(Long id) {
         Phone phone = repository.findOne(id);
-        log.info("Found phone with id : " + phone.getId());
+        LOGGER.debug("Found phone with id : " + phone.getId());
         return phone;
     }
 
@@ -62,14 +62,14 @@ public class PhoneServiceImpl implements PhoneService {
             savedPhone.setPhonepermanent(phone.getPhonepermanent());
             savedPhone.setAddress(phone.getAddress());
             savedPhone.setEmail(phone.getEmail());
-            log.info("Updating phone with id : " + savedPhone.getId());
+            LOGGER.debug("Updating phone with id : " + savedPhone.getId());
         }
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Phone> findRowBySearchCriteria(String login, String criteria) {
-        log.info("Filter phones of user : " + login + " with substring " + criteria);
+        LOGGER.debug("Filter phones of user : " + login + " with substring " + criteria);
         return repository.findByUser_Login(login).stream().filter((e) -> e.getFirstname().toLowerCase().contains(criteria.toLowerCase())
                 || (e.getLastname().toLowerCase().contains(criteria.toLowerCase())
                 || (e.getPhonemobile()).contains(criteria))).collect(Collectors.toList());
